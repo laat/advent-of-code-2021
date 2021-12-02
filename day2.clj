@@ -9,9 +9,9 @@
 
 (defn parse [in]
   (->> in
-     str/split-lines
-     (map #(str/split % #" "))
-     (map (fn [[k v]] [(keyword k) (read-string v)]))))
+       str/split-lines
+       (map #(str/split % #" "))
+       (map (fn [[k v]] [(keyword k) (read-string v)]))))
 
 (->> input
      parse
