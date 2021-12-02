@@ -17,9 +17,9 @@
      parse
      (reduce (fn [m [k v]]
                (case k
-                 :forward (conj m {:horizontal (+ (:horizontal m) v)})
-                 :down (conj m {:depth (+ (:depth m) v)})
-                 :up (conj m {:depth (- (:depth m) v)})))
+                 :forward (update m :horizontal + v)
+                 :down (update m :depth + v)
+                 :up (update m :depth - v)))
              {:horizontal 0 :depth 0})
      (#(* (:horizontal %1) (:depth %1))))
 ;; => 1524750
@@ -28,10 +28,11 @@
      parse
      (reduce (fn [m [k v]]
                (case k
-                 :forward (conj m {:horizontal (+ (:horizontal m) v)
-                                   :depth (+ (:depth m) (* (:aim m) v))})
-                 :down (conj m {:aim (+ (:aim m) v)})
-                 :up (conj m {:aim (- (:aim m) v)})))
+                 :forward (-> m
+                              (update :horizontal + v)
+                              (update :depth + (* (:aim m) v)))
+                 :down (update m :aim + v)
+                 :up (update m :aim - v)))
              {:horizontal 0 :depth 0 :aim 0})
      (#(* (:horizontal %1) (:depth %1))))
 ;; => 1592426537
