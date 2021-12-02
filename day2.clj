@@ -15,24 +15,24 @@
 
 (->> input
      parse
-     (reduce (fn [m [k v]]
-               (case k
-                 :forward (update m :horizontal + v)
-                 :down (update m :depth + v)
-                 :up (update m :depth - v)))
+     (reduce (fn [m [cmd x]]
+               (case cmd
+                 :forward (update m :horizontal + x)
+                 :down (update m :depth + x)
+                 :up (update m :depth - x)))
              {:horizontal 0 :depth 0})
      (#(* (:horizontal %1) (:depth %1))))
 ;; => 1524750
 
 (->> input
      parse
-     (reduce (fn [m [k v]]
-               (case k
+     (reduce (fn [m [cmd x]]
+               (case cmd
                  :forward (-> m
-                              (update :horizontal + v)
-                              (update :depth + (* (:aim m) v)))
-                 :down (update m :aim + v)
-                 :up (update m :aim - v)))
+                              (update :horizontal + x)
+                              (update :depth + (* (:aim m) x)))
+                 :down (update m :aim + x)
+                 :up (update m :aim - x)))
              {:horizontal 0 :depth 0 :aim 0})
      (#(* (:horizontal %1) (:depth %1))))
 ;; => 1592426537
